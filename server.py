@@ -5,6 +5,8 @@ from tensorflow.keras.preprocessing import image as keras_image
 from PIL import Image
 import os
 import uuid
+import os
+os.environ['TF_CPP_MIN_LOG_LEVEL'] = '1' 
 
 app = Flask(__name__)
 
