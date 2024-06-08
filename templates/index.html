@@ -104,113 +104,31 @@
     </section><!-- End About Us Section -->
 
     <!-- ======= Services Section ======= -->
-    <section id="services" class="services">
-      <div class="container">
+<section id="services" class="services">
+  <div class="container">
 
-        <div class="section-title" data-aos="fade-up">
-          <h2>Take a Test</h2>
-          <p>We care for you</p>
-        </div>
+    <div class="section-title" data-aos="fade-up">
+      <h2>Take a Test</h2>
+      <p>We care for you</p>
+    </div>
 
-        <div class="row">
-          <div class="col-lg-6 order-2 order-lg-1" >
-            <form action="/predict" method="POST">
-            <div class="icon-box mt-5 mt-lg-0" data-aos="fade-up">
-              <i class="bx bx-receipt"></i>
-              <h4>Age</h4>
-              <div class="form-group">
-                    <input required type="number" name="age" class="form-control">
+    <div class="row">
+      <div class="col-lg-12 order-2 order-lg-1">
+        <form action="/predict" method="POST" enctype="multipart/form-data">
+          <div class="icon-box mt-5 mt-lg-0" data-aos="fade-up">
+            <i class="bx bx-receipt"></i>
+            <h4>Upload Chest X-ray Image</h4>
+            <div class="form-group">
+              <input required type="file" name="file" class="form-control" accept="image/jpeg">
             </div>
-            </div>
-            <div class="icon-box mt-5" data-aos="fade-up" data-aos-delay="100">
-              <i class="bx bx-receipt"></i>
-              <h4>Blood Pressure</h4>
-              <div class="form-group">
-                    <input required type="number" name="bp" class="form-control">  
-            </div>
-            </div>
-            <div class="icon-box mt-5" data-aos="fade-up" data-aos-delay="200">
-              <i class="bx bx-receipt"></i>
-              <h4>Sugar(nominal)</h4>
-              <div class="form-group">
-                    <select required name="sugar" class="form-control">
-                            <option value="0">0</option>
-                            <option value="1">1</option>
-                            <option value="2">2</option>
-                            <option value="3">3</option>
-                            <option value="4">4</option>
-                        </select>
-              </div>
-            </div>
-            <div class="icon-box mt-5" data-aos="fade-up" data-aos-delay="300">
-              <i class="bx bx-receipt"></i>
-              <h4>Pus Cell</h4>
-              <div class="form-group">
-                    <select required name="pc" class="form-control">
-                            <option value="1">Normal</option>
-                            <option value="0">Abnormal</option>
-                        </select>
-              </div>
-            </div>
-            <div class="icon-box mt-5" data-aos="fade-up" data-aos-delay="300">
-              <i class="bx bx-receipt"></i>
-              <h4>Pus Cell Clumps</h4>
-              <div class="form-group">
-                    <select required name="pcc" class="form-control">
-                            <option value="0">NotPresent</option>
-                            <option value="1">Present</option>
-                        </select>
-              </div>
-            </div>
-           
-
           </div>
-            <div class="col-lg-6 order-2 order-lg-1"> 
-
-                <div class="icon-box mt-5" data-aos="fade-up" data-aos-delay="300">
-                    <i class="bx bx-receipt"></i>
-                            <h4>Sodium(mEq/L)</h4>
-                            <div class="form-group">
-                                    <input required type="number" name="sodium" class="form-control">
-                           </div>
-                </div>
-
-
-              <div class="icon-box mt-5 mt-lg-0" data-aos="fade-up">
-                <i class="bx bx-receipt"></i>
-                <h4>Hemoglobin(gms)</h4>
-                <div class="form-group">
-                        <input required type="any" name="hemo" class="form-control">
-                </div>
-              </div>
-              <div class="icon-box mt-5" data-aos="fade-up" data-aos-delay="100">
-                <i class="bx bx-receipt"></i>
-                <h4>Hypertension</h4>
-                <div class="form-group">
-                        <select required name="htn" class="form-control">
-                                <option value="0">No</option>
-                                <option value="1">Yes</option>
-                            </select>
-                </div>
-              </div>
-              <div class="icon-box mt-5" data-aos="fade-up" data-aos-delay="200">
-                <i class="bx bx-receipt"></i>
-                <h4>Diabetes Mellitus</h4>
-                <div class="form-group">
-                        <select required name="db" class="form-control">
-                                <option value="0">No</option>
-                                <option value="1">Yes</option>
-                            </select>
-                </div>
-              </div>
-              <br>
-              <input class="btn btn-success" type="submit" value="Get Results">
-            </form>
-
-            </div><!--End of 2nd col-->
-        </div>
+          <br>
+          <input class="btn btn-success" type="submit" value="Get Results">
+        </form>
       </div>
-    </section><!-- End Services Section -->
+    </div>
+  </div>
+</section><!-- End Services Section -->
 
     
     <!-- ======= Testimonials Section ======= -->
