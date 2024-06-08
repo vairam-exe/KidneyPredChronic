@@ -28,20 +28,24 @@
 
 <body>
         {% block code_block %}
-  <!-- ======= Hero Section ======= -->
-  <section id="hero">
-    <div class="hero-container">
-      <a href="index.html" class="hero-logo" data-aos="zoom-in"></a>
-      {% if result == 0 %}
-      <h1 data-aos="zoom-in">You have sever chronic kidney disease which may lead to cancer.</h1>
-        {% else %}
-        <h1 data-aos="zoom-in">You have no signs of Chronic Kidney Disease.</h1>
-        {% endif %}
-      
-      <h2 data-aos="fade-up">It’s possible not just to survive, but to thrive and to live a healthy, wonderful life again.</h2>
-      <a data-aos="fade-up" href="#about" class="btn-get-started scrollto">Explore</a>
-    </div>
-  </section><!-- End Hero -->
+<!-- ======= Hero Section ======= -->
+    <section id="hero">
+        <div class="hero-container">
+            <a href="index.html" class="hero-logo" data-aos="zoom-in"></a>
+            <h1 data-aos="zoom-in">
+                {% if prediction == 'Covid' %}
+                    The X-ray indicates Covid-19.
+                {% else %}
+                    The X-ray indicates no signs of Covid-19.
+                {% endif %}
+            </h1>
+            <h2 data-aos="fade-up">
+                Prediction confidence: {{ confidence }}%
+            </h2>
+            <img src="{{ image_url }}" alt="Uploaded X-ray" data-aos="fade-up" class="img-fluid">
+            <a data-aos="fade-up" href="#about" class="btn-get-started scrollto">Explore</a>
+        </div>
+    </section><!-- End Hero -->
         {% endblock %}
   <!-- ======= Header ======= -->
   <header id="header" class="d-flex align-items-center">
