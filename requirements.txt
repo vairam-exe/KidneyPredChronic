@@ -3,3 +3,9 @@ Flask
 numpy
 pandas
 scikit-learn
+matplotlib
+seaborn
+scikit-learn
+opencv-python
+tensorflow
+keras
