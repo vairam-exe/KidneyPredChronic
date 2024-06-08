@@ -1,67 +1,52 @@
-from flask import Flask, request, render_template,flash,redirect,session,abort
-from models import Model
-from writeCsv import write_to_csv
-from datetime import datetime
+from flask import Flask, request, render_template, redirect, url_for
+import numpy as np
+import tensorflow as tf
+from tensorflow.keras.preprocessing import image as keras_image
+from PIL import Image
 import os
-import pandas as pd
+import uuid
 
 app = Flask(__name__)
 
+# Load the trained model
+model = tf.keras.models.load_model('covid19_xray_model.h5')
+
+# Define class names
+class_names = ['Covid', 'Normal']
+
+def predict(img):
+    img = img.convert('RGB')  # Convert image to RGB format
+    img = img.resize((331, 331))
+    img = keras_image.img_to_array(img)
+    img = np.expand_dims(img, axis=0)
+    img = img / 255.0
+    predictions = model.predict(img)
+    return predictions
 
 @app.route('/')
-def root():
+def index():
     return render_template('index.html')
 
+@app.route('/predict', methods=['POST'])
+def upload_image():
+    if 'file' not in request.files:
+        return redirect(request.url)
+    file = request.files['file']
+    if file.filename == '':
+        return redirect(request.url)
+    if file:
+        # Save the uploaded file
+        filename = str(uuid.uuid4()) + ".jpg"
+        filepath = os.path.join('static/uploads', filename)
+        file.save(filepath)
 
-@app.route('/login', methods=['POST'])
-def do_admin_login():
-    if request.form['password'] == 'user1' and request.form['username'] == 'user1':
-        session['logged_in'] = True
-        return render_template('index.html')
-    elif request.form['password'] == 'admin' and request.form['username'] == 'admin':
-        session['logged_in'] = True
-        return displayrecords()
-    else :
-        return render_template('loginerror.html')
+        img = Image.open(file)
+        predictions = predict(img)
+        class_idx = np.argmax(predictions)
+        confidence = np.max(predictions) * 100
+        return render_template('result.html', prediction=class_names[class_idx], confidence=confidence, image_url=url_for('static', filename='uploads/' + filename))
+    else:
+        return redirect(request.url)
 
-@app.route('/displayrecords',methods=['GET'])
-def displayrecords():
-    df = pd.read_csv('dataset/records.csv')
-    return render_template('displayrecords.html', tables=[df.to_html(classes='data', header="true")])
-
-
-@app.route('/login',methods=['GET'])
-def login():
-    return render_template('login.html')
-
-@app.route("/logout")
-def logout():
-    session['logged_in'] = False
-    return root()
-
-
-@app.route('/predict', methods=["POST"])
-def predict():
-    age = int(request.form['age'])
-    bp = int(request.form['bp'])
-    sugar = int(request.form['sugar'])
-    pc = int(request.form['pc'])
-    pcc = int(request.form['pcc'])
-    sodium = int(request.form['sodium'])
-    hemo = float(request.form['hemo'])
-    htn = int(request.form['htn'])
-    db = int(request.form['db'])
-
-    values = [age, bp, sugar, pc, pcc, sodium, hemo, htn,db]
-    print(values)
-    model = Model()
-    classifier = model.randomforest_classifier()
-    prediction = classifier.predict([values])
-    print(f"Kidney disease = {prediction[0]}")
-
-    time = datetime.now().strftime("%m/%d/%Y (%H:%M:%S)")
-    write_to_csv(time,age, bp, sugar, pc, pcc, sodium, hemo, htn,db,prediction[0])
-    return render_template("result.html", result=prediction[0])
-
-app.secret_key = os.urandom(12)
-app.run(port=5000, host='0.0.0.0', debug=True)
+if __name__ == '__main__':
+    app.run(port=5000, host='0.0.0.0', debug=True)
